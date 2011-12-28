@@ -11,12 +11,12 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-typedef SPSC_RingBufferQueue<int> MyQueue;
+typedef SPSC_RingBufferQueue<int> IntQueue;
 
 struct Context
 {
     int N;
-    MyQueue queue;
+    IntQueue queue;
 
     Context(int N, int bufferSize)
         : N(N), queue(bufferSize)
@@ -29,7 +29,11 @@ static void producer(void * param)
     Context * context = (Context*)param; 
 
     for(int i = 0; i < context->N; i++)
-        context->queue.push(new int(i));
+    {
+        int * val = new int(i);
+        while (!context->queue.tryPush(val))
+            ;
+    }
 }
 
 static void consumer(void * param)
@@ -38,7 +42,9 @@ static void consumer(void * param)
 
     for(int i = 0; i < context->N; i++)
     {
-        int * val = context->queue.pop();
+        int * val;
+        while ((val = context->queue.tryPop()) == NULL)
+            ;
         EXPECT_EQ(i, *val);
         delete val;
     }
@@ -48,10 +54,10 @@ static void consumer(void * param)
 
 #ifdef WIN32
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1K)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1K)
 {
     Context * context = new Context(10000,1000);
-    
+
     HANDLE threads[] =
     {
         CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)producer,context,0,NULL),
@@ -63,7 +69,7 @@ TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1K)
 
 #else
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1K)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1K)
 {
     // POSIX version
 }
@@ -74,7 +80,7 @@ TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1K)
 
 #ifdef WIN32
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_2)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_2)
 {
     Context * context = new Context(10000,2);
 
@@ -89,7 +95,7 @@ TEST(SPSC_RingBufferQueue, BasicTest_10K_via_2)
 
 #else
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_2)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_2)
 {
     // POSIX version
 }
@@ -100,7 +106,7 @@ TEST(SPSC_RingBufferQueue, BasicTest_10K_via_2)
 
 #ifdef WIN32
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1)
 {
     Context * context = new Context(10000,1);
 
@@ -115,7 +121,7 @@ TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1)
 
 #else
 
-TEST(SPSC_RingBufferQueue, BasicTest_10K_via_1)
+TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1)
 {
     // POSIX version
 }

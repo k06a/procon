@@ -21,14 +21,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SPSC_RingBufferQueueTest.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="..\gmock\src\gmock-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\gmock\gtest\src\gtest-all.cc">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SPSC_RingBufferQueue_PushPopTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="SPSC_RingBufferQueue_TryTest.cpp">
+      <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
