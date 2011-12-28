@@ -1,0 +1,9 @@
+syntax: glob
+_ReSharper.*
+Debug/
+Release/
+*.sdf
+*.opensdf
+*.user
+*.suo
+ipch/
