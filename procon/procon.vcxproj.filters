@@ -38,5 +38,8 @@
     <ClInclude Include="SPSC_RingBufferQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SPSC_RingBufferQueue_Common.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,11 +1,6 @@
-#ifdef WIN32
-#include <Windows.h>
-#else
-
-#endif
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include "SPSC_RingBufferQueue_Common.h"
 
 #include "SPSC_RingBufferQueue.h"
 
@@ -52,80 +47,28 @@ static void consumer(void * param)
 
 //////////////////////////////////////////////////////////////////////////
 
-#ifdef WIN32
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1K)
+TEST(SPSC_RingBufferQueue, TryPushPop_1K_via_100)
 {
-    Context * context = new Context(10000,1000);
-
-    HANDLE threads[] =
-    {
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)producer,context,0,NULL),
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)consumer,context,0,NULL),
-    };
-
-    WaitForMultipleObjects(2, threads, TRUE, INFINITE);
+    Context * context = new Context(1000,100);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
 }
 
-#else
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1K)
+TEST(SPSC_RingBufferQueue, TryPushPop_1K_via_10)
 {
-    // POSIX version
+    Context * context = new Context(1000,10);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
 }
 
-#endif
-
-//////////////////////////////////////////////////////////////////////////
-
-#ifdef WIN32
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_2)
+TEST(SPSC_RingBufferQueue, TryPushPop_1K_via_2)
 {
-    Context * context = new Context(10000,2);
-
-    HANDLE threads[] =
-    {
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)producer,context,0,NULL),
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)consumer,context,0,NULL),
-    };
-
-    WaitForMultipleObjects(2, threads, TRUE, INFINITE);
+    Context * context = new Context(1000,2);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
 }
 
-#else
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_2)
+TEST(SPSC_RingBufferQueue, TryPushPop_1K_via_1)
 {
-    // POSIX version
+    Context * context = new Context(1000,1);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
 }
-
-#endif
-
-//////////////////////////////////////////////////////////////////////////
-
-#ifdef WIN32
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1)
-{
-    Context * context = new Context(10000,1);
-
-    HANDLE threads[] =
-    {
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)producer,context,0,NULL),
-        CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)consumer,context,0,NULL),
-    };
-
-    WaitForMultipleObjects(2, threads, TRUE, INFINITE);
-}
-
-#else
-
-TEST(SPSC_RingBufferQueue, TryPushPop_10K_via_1)
-{
-    // POSIX version
-}
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
