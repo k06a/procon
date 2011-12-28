@@ -66,3 +66,41 @@ TEST(SPSC_RingBufferQueue, PushPop_1K_via_1)
 }
 
 //////////////////////////////////////////////////////////////////////////
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_10K)
+{
+    Context * context = new Context(100000,10000);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_1K)
+{
+    Context * context = new Context(100000,1000);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_100)
+{
+    Context * context = new Context(100000,100);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_10)
+{
+    Context * context = new Context(100000,10);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_2)
+{
+    Context * context = new Context(100000,2);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+TEST(SPSC_RingBufferQueue, PushPop_100K_via_1)
+{
+    Context * context = new Context(100000,1);
+    SPSC_RingBufferQueue_Test(producer,consumer,context);
+}
+
+//////////////////////////////////////////////////////////////////////////
