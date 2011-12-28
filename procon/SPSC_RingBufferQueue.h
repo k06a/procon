@@ -4,16 +4,16 @@ template<typename T>
 class SPSC_RingBufferQueue
 {
     int maxSize;
+    T ** arr;
     volatile int front;
     volatile int back;
-    T ** arr;
     
 public:
     SPSC_RingBufferQueue(int maxSize)
         : maxSize(maxSize+1)
+        , arr(new T * [maxSize+1])
         , front(0)
         , back(0)
-        , arr(new T * [maxSize+1])
     { 
     }
 
